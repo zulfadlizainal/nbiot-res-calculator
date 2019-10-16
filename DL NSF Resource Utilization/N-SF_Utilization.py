@@ -92,5 +92,6 @@ plt.xlim(-30,0)
 
 plt.show()
 
-# Export Data
-#df_nsf.to_csv("Output.csv", encoding='utf-8-sig', index=None)
+#Export Data
+df_nsf_rp.to_csv("Result_RP.csv", encoding='utf-8-sig', index=True)
+df_nsf_rq.to_csv("Result_RQ.csv", encoding='utf-8-sig', index=True)
