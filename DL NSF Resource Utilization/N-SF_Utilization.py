@@ -1,9 +1,8 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
-mydateparser = lambda x: pd.datetime.strptime(x, "%Y %m %d %H:%M:%S")
-df_nsf = pd.read_excel('ML1_DCI_Info_TTI.xlsx', encoding='utf-8', parse_dates=['TIME_STAMP'], date_parser=mydateparser)
-#df_nsf = pd.read_excel('ML1_DCI_Info_TTI.xlsx', encoding='utf-8')
+df_nsf = pd.read_excel('ML1_DCI_Info_TTI.xlsx', encoding='utf-8')
 
 # Define NSF Dictionary - 3GPP TS36.213 Sec 16
 dic_nsf = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 8, 7: 10}
@@ -13,7 +12,10 @@ df_nsf.columns = ['Time', 'NRSRP', 'NRSRQ', 'NPDCCH_HSFN', 'NPDCCH_SFN', 'NPDCCH
                   'UL_Grant', 'DL_Grant', 'PDCCH_Order', 'NDI', 'SC_Index', 'RV', 'NSF',
                   'Scheduling_Delay', 'MCS', 'I_Rep', 'N_Rep', 'DCI_Rep', 'HARQ-ACK Resource']
 
-#Delete Unused columns
+# Remove
+df_nsf['Time'] = df_nsf['Time'].dt.round('1s')
+
+# Delete Unused columns
 del df_nsf['SC_Index']
 del df_nsf['RV']
 
@@ -33,5 +35,62 @@ df_nsf['NSF_Temp'] = df_nsf['NSF'].map(dic_nsf)
 df_nsf['NSF'] = df_nsf['NSF_Temp']
 df_nsf.drop(columns=['NSF_Temp'], inplace=True)
 
-#Calculate NSF with Repetition
-df_nsf['NSF_wRep'] = df_nsf['NSF']*df_nsf['N_Rep']
+# Calculate NSF with Repetition
+df_nsf['NSF_with_Rep'] = df_nsf['NSF'] * df_nsf['N_Rep']
+
+# Groupby per Second (Sum NSF Count per Sec)
+df_nsf_1sec = df_nsf.groupby('Time').aggregate(
+    {'NRSRP': np.min, 'NRSRQ': np.min, 'NSF': np.sum, 'NSF_with_Rep': np.sum, 'N_Rep': np.mean})
+
+# Groupby per RF (Avg NSF Count per RF)
+df_nsf_rp = df_nsf_1sec.groupby('NRSRP').aggregate(
+    {'NSF': np.mean, 'NSF_with_Rep': np.mean, 'N_Rep': np.mean})
+
+df_nsf_rq = df_nsf_1sec.groupby('NRSRQ').aggregate(
+    {'NSF': np.mean, 'NSF_with_Rep': np.mean, 'N_Rep': np.mean})
+
+#Plotting NSF Length
+df_nsf_rp.plot(y=["NSF", "NSF_with_Rep"])
+
+plt.xlabel("NRSRP (dBm)")
+plt.ylabel("NSF Length (ms)")
+plt.title("Average NSF Allocation Time / Second")
+plt.legend()
+plt.grid()
+plt.xlim(-140,-90)
+plt.ylim(0,1000)
+
+df_nsf_rq.plot(y=["NSF", "NSF_with_Rep"])
+
+plt.xlabel("NRSRQ (dB)")
+plt.ylabel("NSF Length (ms)")
+plt.title("Average NSF Allocation Time / Second")
+plt.legend()
+plt.grid()
+plt.xlim(-30,0)
+plt.ylim(0,1000)
+
+#Plotting Rep Num
+
+df_nsf_rp.plot(y=["N_Rep"])
+
+plt.xlabel("NRSRP (dBm)")
+plt.ylabel("N_Rep")
+plt.title("Average NPDSCH Repetition Number (N_Rep)")
+plt.legend()
+plt.grid()
+plt.xlim(-140,-90)
+
+df_nsf_rq.plot(y=["N_Rep"])
+
+plt.xlabel("NRSRQ (dB)")
+plt.ylabel("N_Rep")
+plt.title("Average NPDSCH Repetition Number (N_Rep)")
+plt.legend()
+plt.grid()
+plt.xlim(-30,0)
+
+plt.show()
+
+# Export Data
+#df_nsf.to_csv("Output.csv", encoding='utf-8-sig', index=None)
