@@ -1,3 +1,5 @@
+#Created by github.com/zulfadlizainal
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -134,3 +136,9 @@ df_nsf_rq = pd.concat([df_nsf_rq,df_nsf_rq_nsfavg], axis=1)
 #Export Data
 df_nsf_rp.to_csv("Result_RP.csv", encoding='utf-8-sig', index=True)
 df_nsf_rq.to_csv("Result_RQ.csv", encoding='utf-8-sig', index=True)
+
+print(' ')
+print('ありがとうございました！！')
+print('Download this program: https://github.com/zulfadlizainal')
+print('Author: https://www.linkedin.com/in/zulfadlizainal')
+print(' ')
