@@ -3,7 +3,7 @@
 Calculation method of LTE NB-IoT DL N-SF utilization based on scheduled NPDSCH. Calculation is being done based on the reference of 3GPP and captured DCI (NPDCCH) data from Qualcomm Chipset.
 
 ### Explanation
-In LTE NB-IoT, DL resource unit is known as N-SF. This is due to in LTE NB-IoT, frequency domain will always be 1 PRB or 12 Subcarriers. Hence, the important metric to indicate DL NB-IoT resource would be measuring the N-SF, which is the number of subframes allocated.
+In LTE NB-IoT, DL resource unit is known as N-SF. This is due to in LTE NB-IoT, frequency domain will always be 1 PRB or 12 subcarriers. Hence, the important metric to indicate DL NB-IoT resource would be measuring the N-SF, which is the number of subframes allocated.
 
 DL Frame structure in LTE NB-IoT:
 <br />
@@ -50,7 +50,9 @@ The decoded message need to be converted properly based on 3GPP TS 36.213 to hav
 <br />
 <br />
 
-### Running The Program
+## The Codes ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization/blob/master/DL%20NSF%20Resource%20Utilization/N-SF_Utilization.py))
+
+### Results
 
 Expected results shown based on given input. Raw data is exactlly everything from the UE decoded DCI. The program will calculate NB-IoT DL Resource Utilization KPI based on actual decoded DCI from the UE.
 <br />
