@@ -50,7 +50,14 @@ The decoded message need to be converted properly based on 3GPP TS 36.213 to hav
 <br />
 <br />
 
-## The Codes ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization/blob/master/DL%20NSF%20Resource%20Utilization/N-SF_Utilization.py))
+### The Codes ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization/blob/master/DL%20NSF%20Resource%20Utilization/N-SF_Utilization.py))
+
+Head over to the link above for the python codes. Snapshot below is not a complete codes.
+<br />
+<br />
+<img src="https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization/blob/master/img/NSFUtil_Codes.png" alt="Codes" title="Codes" width=100% height=100% />
+<br />
+<br />
 
 ### Results
 
