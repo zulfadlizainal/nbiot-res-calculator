@@ -94,3 +94,93 @@ df_nru_rp_nruavg = df_nru.groupby('NRSRP').aggregate({'NRU': np.mean})
 df_nru_rp_nruavg.columns = ['NRU_Avg']
 df_nru_rq_nruavg = df_nru.groupby('NRSRQ').aggregate({'NRU': np.mean})
 df_nru_rq_nruavg.columns = ['NRU_Avg']
+
+# Pivot RF by Tone Number
+#df_nru_rp_tonedist = df_nru[['NRSRP', 'SC_Index']].copy()
+#df_nru_rp_tonedist_piv = df_nru_rp_tonedist.pivot_table(index = 'NRSRP', columns = 'SC_Index'  )
+
+####################################Plotting####################################
+
+#Plotting NRU Length
+df_nru_rp.plot(y=["NRU_Length", "NRU_Length_with_Rep"])
+
+plt.xlabel("NRSRP (dBm)")
+plt.ylabel("NSF Length (ms)")
+plt.title("Average NRU Allocation Time / Second")
+plt.legend()
+plt.grid()
+plt.xlim(-140,-90)
+plt.ylim(0,1000)
+
+df_nru_rq.plot(y=["NRU_Length", "NRU_Length_with_Rep"])
+
+plt.xlabel("NRSRQ (dB)")
+plt.ylabel("NRU Length (ms)")
+plt.title("Average NRU Allocation Time / Second")
+plt.legend()
+plt.grid()
+plt.xlim(-30,0)
+plt.ylim(0,1000)
+
+#Plotting NRU Size
+df_nru_rp.plot(y=["NRU_Size", "NRU_Size_with_Rep"])
+
+plt.xlabel("NRSRP (dBm)")
+plt.ylabel("NRU Size (Tone x ms)")
+plt.title("Average NRU Allocation Size / Second")
+plt.legend()
+plt.grid()
+plt.xlim(-140,-90)
+plt.ylim(0,1000)
+
+df_nru_rq.plot(y=["NRU_Size", "NRU_Size_with_Rep"])
+
+plt.xlabel("NRSRQ (dB)")
+plt.ylabel("NRU Size (ms)")
+plt.title("Average NRU Allocation Size / Second")
+plt.legend()
+plt.grid()
+plt.xlim(-30,0)
+plt.ylim(0,1000)
+
+#Plotting Rep Num
+df_nru_rp.plot(y=["N_Rep"])
+
+plt.xlabel("NRSRP (dBm)")
+plt.ylabel("N_Rep")
+plt.title("Average NPUSCH Repetition Number (N_Rep)")
+plt.legend()
+plt.grid()
+plt.xlim(-140,-90)
+
+df_nru_rq.plot(y=["N_Rep"])
+
+plt.xlabel("NRSRQ (dB)")
+plt.ylabel("N_Rep")
+plt.title("Average NPUSCH Repetition Number (N_Rep)")
+plt.legend()
+plt.grid()
+plt.xlim(-30,0)
+
+#Plotting NRU Avg Num
+df_nru_rp_nruavg.plot(y=["NRU_Avg"])
+
+plt.xlabel("NRSRP (dBm)")
+plt.ylabel("NRU Count")
+plt.title("Average NRU Allocation Number")
+plt.legend()
+plt.grid()
+plt.xlim(-140,-90)
+
+df_nru_rq_nruavg.plot(y=["NRU_Avg"])
+
+plt.xlabel("NRSRQ (dB)")
+plt.ylabel("NRU Count")
+plt.title("Average NRU Allocation Number")
+plt.legend()
+plt.grid()
+plt.xlim(-30,0)
+
+plt.show()
+
+#Plotting Tone Number Distribution
