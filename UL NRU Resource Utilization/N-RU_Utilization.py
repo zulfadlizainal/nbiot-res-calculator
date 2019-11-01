@@ -15,6 +15,9 @@ dic_nru = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 8, 7: 10}
 dic_tone = {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1,
             10: 1, 11: 1, 12: 3, 13: 3, 14: 3, 15: 3, 16: 6, 17: 6, 18: 12}
 
+# Define Subframe number based on Tone
+dic_subframe = {1: 8, 3: 4, 6: 2, 12: 1}
+
 ###################################Data Celanup#################################
 
 # Data Cosmetics
@@ -49,21 +52,42 @@ df_nru['SC_Index_Temp'] = df_nru['SC_Index'].map(dic_tone)
 df_nru['SC_Index'] = df_nru['SC_Index_Temp']
 df_nru.drop(columns=['SC_Index_Temp'], inplace=True)
 
-# Calculate NRU` with Repetition
+# Calculate NRU with Repetition
 df_nru['NRU_with_Rep'] = df_nru['NRU'] * df_nru['N_Rep']
+
+# Calculate NRU Length (ms)
+df_nru['NRU_Length'] = df_nru['SC_Index'].map(dic_subframe)
+
+# Calculate NRU Length with repetition (ms)
+df_nru['NRU_Length_with_Rep'] = df_nru['NRU_Length'] * df_nru['N_Rep']
+
+# Calculate NRU Size (Tone x ms)
+df_nru['NRU_Size'] = df_nru['SC_Index'] * df_nru['NRU_Length']
+
+# Calculate NRU Size with repetition
+df_nru['NRU_Size_with_Rep'] = df_nru['NRU_Size'] * df_nru['N_Rep']
 
 ##################################Groupby Sum###################################
 
 # Groupby per Second (Sum NRU Count per Sec)
 df_nru_1sec = df_nru.groupby('Time').aggregate(
-    {'NRSRP': np.min, 'NRSRQ': np.min, 'NRU': np.sum, 'NRU_with_Rep': np.sum, 'N_Rep': np.mean})
+    {'NRSRP': np.min, 'NRSRQ': np.min, 'NRU': np.sum, 'NRU_with_Rep': np.sum,
+     'NRU_Length': np.sum, 'NRU_Length_with_Rep': np.sum,
+     'NRU_Size': np.sum, 'NRU_Size_with_Rep': np.sum,
+     'N_Rep': np.mean, 'SC_Index': np.mean})
 
 # Groupby per RF (Avg NRU Count per RF)
 df_nru_rp = df_nru_1sec.groupby('NRSRP').aggregate(
-    {'NRU': np.mean, 'NRU_with_Rep': np.mean, 'N_Rep': np.mean})
+    {'NRU': np.mean, 'NRU_with_Rep': np.mean,
+     'NRU_Length': np.mean, 'NRU_Length_with_Rep': np.mean,
+     'NRU_Size': np.mean, 'NRU_Size_with_Rep': np.mean,
+     'N_Rep': np.mean, 'SC_Index': np.mean})
 
 df_nru_rq = df_nru_1sec.groupby('NRSRQ').aggregate(
-    {'NRU': np.mean, 'NRU_with_Rep': np.mean, 'N_Rep': np.mean})
+    {'NRU': np.mean, 'NRU_with_Rep': np.mean,
+     'NRU_Length': np.mean, 'NRU_Length_with_Rep': np.mean,
+     'NRU_Size': np.mean, 'NRU_Size_with_Rep': np.mean,
+     'N_Rep': np.mean, 'SC_Index': np.mean})
 
 # Groupby NRU Avg
 df_nru_rp_nruavg = df_nru.groupby('NRSRP').aggregate({'NRU': np.mean})
