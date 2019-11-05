@@ -3,6 +3,9 @@ Calculating method for DL and UL resource utilization in 4G NB-IoT.
 
 ### List of projects
 
+DL NSF Resource Utilization ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization#1-dl-nsf-resource-utilization-link))
+UL NRU Resource Utilization ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization#2-ul-nru-resource-utilization-link))
+
 ## 1. DL NSF Resource Utilization ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization/tree/master/DL%20NSF%20Resource%20Utilization))
 
 Calculation method of LTE NB-IoT DL N-SF utilization based on scheduled NPDSCH. Calculation is being done based on the reference of 3GPP and captured DCI (NPDCCH) data from Qualcomm Chipset.
