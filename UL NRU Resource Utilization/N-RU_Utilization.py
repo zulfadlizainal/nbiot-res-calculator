@@ -145,7 +145,7 @@ plt.ylim(0,1000)
 df_nru_rq.plot(y=["NRU_Size", "NRU_Size_with_Rep"])
 
 plt.xlabel("NRSRQ (dB)")
-plt.ylabel("NRU Size (ms)")
+plt.ylabel("NRU Size (Tone x ms)")
 plt.title("Average NRU Allocation Size / Second")
 plt.legend()
 plt.grid()
