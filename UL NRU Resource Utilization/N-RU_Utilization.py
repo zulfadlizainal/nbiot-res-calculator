@@ -96,8 +96,17 @@ df_nru_rq_nruavg = df_nru.groupby('NRSRQ').aggregate({'NRU': np.mean})
 df_nru_rq_nruavg.columns = ['NRU_Avg']
 
 # Pivot RF by Tone Number
-#df_nru_rp_tonedist = df_nru[['NRSRP', 'SC_Index']].copy()
-#df_nru_rp_tonedist_piv = df_nru_rp_tonedist.pivot_table(index = 'NRSRP', columns = 'SC_Index'  )
+df_nru_rp_tonedist = df_nru[['NRSRP', 'SC_Index', 'SC_Index']].copy()
+df_nru_rp_tonedist.columns = ['NRSRP', 'SC_Index', 'Tone']
+df_nru_rp_tonedist = df_nru_rp_tonedist.loc[(df_nru_rp_tonedist['NRSRP'] >= -140) & (df_nru_rp_tonedist['NRSRP'] <= -90)]
+df_nru_rp_tonedist_pivot = df_nru_rp_tonedist.pivot_table(index = 'NRSRP', columns = 'SC_Index', values = 'Tone', aggfunc = 'count')
+df_nru_rp_tonedist_pivot = df_nru_rp_tonedist_pivot.replace(np.nan, 0)
+
+df_nru_rq_tonedist = df_nru[['NRSRQ', 'SC_Index', 'SC_Index']].copy()
+df_nru_rq_tonedist.columns = ['NRSRQ', 'SC_Index', 'Tone']
+df_nru_rq_tonedist = df_nru_rq_tonedist.loc[(df_nru_rq_tonedist['NRSRQ'] >= -30) & (df_nru_rq_tonedist['NRSRQ'] <= 0)]
+df_nru_rq_tonedist_pivot = df_nru_rq_tonedist.pivot_table(index = 'NRSRQ', columns = 'SC_Index', values = 'Tone', aggfunc = 'count')
+df_nru_rq_tonedist_pivot = df_nru_rq_tonedist_pivot.replace(np.nan, 0)
 
 ####################################Plotting####################################
 
@@ -181,6 +190,19 @@ plt.legend()
 plt.grid()
 plt.xlim(-30,0)
 
-plt.show()
-
 #Plotting Tone Number Distribution
+df_nru_rp_tonedist_pivot = df_nru_rp_tonedist_pivot.div(df_nru_rp_tonedist_pivot.sum(1), axis=0)
+df_nru_rp_tonedist_pivot.plot(kind='bar', stacked=True)
+plt.xlabel("NRSRP (dBm)")
+plt.ylabel("Tone DIstribution")
+plt.title("Uplink Tone Number Distribution")
+plt.legend(title = 'Tone Number')
+
+df_nru_rq_tonedist_pivot = df_nru_rq_tonedist_pivot.div(df_nru_rq_tonedist_pivot.sum(1), axis=0)
+df_nru_rq_tonedist_pivot.plot(kind='bar', stacked=True)
+plt.xlabel("NRSRQ (dB)")
+plt.ylabel("Tone DIstribution")
+plt.title("Uplink Tone Number Distribution")
+plt.legend(title = 'Tone Number')
+
+plt.show()
