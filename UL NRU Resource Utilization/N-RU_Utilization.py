@@ -206,3 +206,21 @@ plt.title("Uplink Tone Number Distribution")
 plt.legend(title = 'Tone Number')
 
 plt.show()
+
+
+#############################Data Prepare Export################################
+
+df_nru_rp_exp = pd.concat([df_nru_rp,df_nru_rp_nruavg], axis=1)
+df_nru_rq_exp = pd.concat([df_nru_rq,df_nru_rq_nruavg], axis=1)
+
+#Export Data
+df_nru_rp.to_csv("Result_RP.csv", encoding='utf-8-sig', index=True)
+df_nru_rq.to_csv("Result_RQ.csv", encoding='utf-8-sig', index=True)
+df_nru_rp_tonedist_pivot.to_csv("Result_RP_Tone.csv", encoding='utf-8-sig', index=True)
+df_nru_rq_tonedist_pivot.to_csv("Result_RQ_Tone.csv", encoding='utf-8-sig', index=True)
+
+print(' ')
+print('Terima Kasih')
+print('Download this program: https://github.com/zulfadlizainal')
+print('Author: https://www.linkedin.com/in/zulfadlizainal')
+print(' ')
