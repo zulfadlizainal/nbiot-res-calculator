@@ -4,6 +4,7 @@ Calculating method for DL and UL resource utilization in 4G NB-IoT.
 ### List of projects
 
 DL NSF Resource Utilization ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization#1-dl-nsf-resource-utilization-link))
+<br />
 UL NRU Resource Utilization ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization#2-ul-nru-resource-utilization-link))
 
 ## 1. DL NSF Resource Utilization ([Link](https://github.com/zulfadlizainal/4G-NB-IoT-Resource-Utilization/tree/master/DL%20NSF%20Resource%20Utilization))
